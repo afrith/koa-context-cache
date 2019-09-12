@@ -1,0 +1,25 @@
+{
+  "name": "koa-context-cache",
+  "version": "0.0.1",
+  "description": "Koa middleware that caches a field in the context object",
+  "main": "src/index.js",
+  "repository": "https://github.com/afrith/koa-context-cache.git",
+  "author": "Adrian Frith <adrian@adrianfrith.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "babel src -d dist",
+    "test": "jest"
+  },
+  "dependencies": {
+    "node-cache": "^4.2.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.0",
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0",
+    "standard": "^14.2.0"
+  }
+}
