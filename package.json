@@ -1,14 +1,16 @@
 {
   "name": "koa-context-cache",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Koa middleware that caches a field in the context object",
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "module": "src/index.js",
   "repository": "https://github.com/afrith/koa-context-cache.git",
   "author": "Adrian Frith <adrian@adrianfrith.com>",
   "license": "MIT",
   "private": false,
   "scripts": {
     "build": "babel src -d dist",
+    "prepack": "yarn build",
     "test": "jest"
   },
   "dependencies": {
