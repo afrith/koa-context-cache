@@ -11,7 +11,7 @@ test('inner middleware is applied on first call', async () => {
     getKeyFromContext: () => null
   })
 
-  await cc({}, next)
+  await cc({ state: {} }, next)
 
   expect(middleware).toHaveBeenCalledTimes(1)
   expect(next).toHaveBeenCalledTimes(1)
@@ -19,7 +19,7 @@ test('inner middleware is applied on first call', async () => {
 
 test('value is cached and used', async () => {
   const middleware = jest.fn(async (ctx, next) => {
-    ctx.value = 'hello'
+    ctx.state.value = 'hello'
     await next()
   })
   const next = jest.fn()
@@ -31,24 +31,24 @@ test('value is cached and used', async () => {
     ttl: 3000
   })
 
-  const ctx1 = { key: 'value' }
+  const ctx1 = { key: 'value', state: {} }
   await cc(ctx1, next)
 
   expect(middleware).toHaveBeenCalledTimes(1)
   expect(next).toHaveBeenCalledTimes(1)
-  expect(ctx1.value).toEqual('hello')
+  expect(ctx1.state.value).toEqual('hello')
 
-  const ctx2 = { key: 'value' }
+  const ctx2 = { key: 'value', state: {} }
   await cc(ctx2, next)
 
   expect(middleware).toHaveBeenCalledTimes(1)
   expect(next).toHaveBeenCalledTimes(2)
-  expect(ctx2.value).toEqual('hello')
+  expect(ctx2.state.value).toEqual('hello')
 })
 
 test('value is not cached when key differs', async () => {
   const middleware = jest.fn(async (ctx, next) => {
-    ctx.value = ctx.key
+    ctx.state.value = ctx.key
     await next()
   })
   const next = jest.fn()
@@ -60,24 +60,24 @@ test('value is not cached when key differs', async () => {
     ttl: 3000
   })
 
-  const ctx1 = { key: 'value' }
+  const ctx1 = { key: 'value', state: {} }
   await cc(ctx1, next)
 
   expect(middleware).toHaveBeenCalledTimes(1)
   expect(next).toHaveBeenCalledTimes(1)
-  expect(ctx1.value).toEqual('value')
+  expect(ctx1.state.value).toEqual('value')
 
-  const ctx2 = { key: 'different-value' }
+  const ctx2 = { key: 'different-value', state: {} }
   await cc(ctx2, next)
 
   expect(middleware).toHaveBeenCalledTimes(2)
   expect(next).toHaveBeenCalledTimes(2)
-  expect(ctx2.value).toEqual('different-value')
+  expect(ctx2.state.value).toEqual('different-value')
 })
 
 test('TTL is respected', async () => {
   const middleware = jest.fn(async (ctx, next) => {
-    ctx.value = 'hello'
+    ctx.state.value = 'hello'
     await next()
   })
   const next = jest.fn()
@@ -89,20 +89,20 @@ test('TTL is respected', async () => {
     ttl: 1
   })
 
-  const ctx1 = { key: 'value' }
+  const ctx1 = { key: 'value', state: {} }
   await cc(ctx1, next)
 
   expect(middleware).toHaveBeenCalledTimes(1)
   expect(next).toHaveBeenCalledTimes(1)
-  expect(ctx1.value).toEqual('hello')
+  expect(ctx1.state.value).toEqual('hello')
 
   // wait 1.5 seconds
   await new Promise(resolve => setTimeout(resolve, 1500))
 
-  const ctx2 = { key: 'value' }
+  const ctx2 = { key: 'value', state: {} }
   await cc(ctx2, next)
 
   expect(middleware).toHaveBeenCalledTimes(2)
   expect(next).toHaveBeenCalledTimes(2)
-  expect(ctx2.value).toEqual('hello')
+  expect(ctx2.state.value).toEqual('hello')
 })
