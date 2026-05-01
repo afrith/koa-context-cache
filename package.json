@@ -1,6 +1,6 @@
 {
   "name": "koa-context-cache",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Koa middleware that caches a field in the context object",
   "main": "dist/index.js",
   "repository": "https://github.com/afrith/koa-context-cache.git",
