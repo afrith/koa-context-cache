@@ -32,7 +32,7 @@ import koaContextCache from 'koa-context-cache'
 const cachedAuth = koaContextCache({
   middleware: ensureAuth,
   getKeyFromContext: ctx => ctx.headers.Authorization,
-  contextPropName: 'userinfo',
+  cachedStateFields: ['userinfo'],
   ttl: 60 // seconds
 })
 
@@ -51,5 +51,5 @@ The module exports a function which returns a middleware. The function accepts a
 
 * `getKeyFromContext`: a function that derives the cache key from the context. It will be passed the Koa context and should return a String.
 * `middleware`: middleware which will be applied if there is no cached value for the given key.
-* `contextPropName`: the name of the property of `ctx.state` which is to be cached; i.e. what is cached is the value of `ctx.state[contextPropName]`.
+* `cachedStateFields`: the names of the fields in `ctx.state` which are to be cached; i.e. what is cached is the value of `ctx.state[x]` for all `x` in `cachedStateFields`.
 * `ttl`: time-to-live of the cache, in seconds.
