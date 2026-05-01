@@ -25,7 +25,7 @@ export default function contextCache (options: ContextCacheOptions): Koa.Middlew
     const key = getKeyFromContext(ctx)
 
     if (key != null) {
-      const cachedValue = cache.get(key)
+      const cachedValue = cache.get<object>(key)
       if (cachedValue != null) {
         for (const [name, value] of Object.entries(cachedValue)) {
           ctx.state[name] = value
